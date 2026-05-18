@@ -2,21 +2,23 @@ import streamlit as st
 import random
 from datetime import datetime
 
-# --- 1. Page Config & Ultimate Macaron Peach CSS ---
+# --- 1. Page Config & Ultimate Macaron Gradient CSS ---
 st.set_page_config(page_title="Bon Voyage Prototype", layout="centered")
 
 st.markdown("""
     <style>
-    /* 🛑 終極強力覆蓋：把所有可能的底層外殼全部強制刷成馬卡龍粉橘色 🛑 */
+    /* 🛑 終極強力覆蓋：刷出高級感「落日馬卡龍」雙色漸層背景 🛑 */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stMainViewContainer"], .main, [data-testid="stHeader"] {
-        background-color: #FFC0A8 !important;
+        background: linear-gradient(135deg, #FFC0A8 0%, #FFDEE9 100%) !important;
+        background-attachment: fixed !important; /* 讓漸層固定，滾動時不會破圖 */
         color: #1E293B !important;
     }
     
+    /* 讓容器透明，背景的漸層才透得出來 */
     .block-container { 
         padding-top: 2rem !important; 
         padding-bottom: 100px !important; 
-        background-color: #FFC0A8 !important;
+        background-color: transparent !important;
     }
     
     /* 隱藏預設頂部列 */
@@ -78,14 +80,14 @@ st.markdown("""
         color: #FF4B4B !important; font-weight: 800 !important; 
     }
     
-    /* 純白懸浮行程卡片 */
+    /* 純白懸浮行程卡片 (加上更柔和的陰影襯托漸層) */
     .trip-card { 
         background-color: #FFFFFF !important; 
         padding: 18px; 
         border-radius: 16px; 
         border-left: 5px solid #FF4B4B; 
         margin-bottom: 16px;
-        box-shadow: 0 4px 14px rgba(223, 110, 71, 0.15);
+        box-shadow: 0 8px 20px rgba(223, 110, 71, 0.12);
     }
     .trip-card h4 { margin: 0; color: #1E293B !important; font-size: 16px; font-weight: 600; }
     .trip-card p.desc { margin: 6px 0; color: #475569 !important; font-size: 14px; }
@@ -203,7 +205,7 @@ DATABASE = [
     },
     {
         "city": "Beijing, China", "name": "Houhai Lakes", "time": "06:00 PM", 
-        "img": "https://images.unsplash.com/photo-1660666351618-24e00de12b92?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+        "img": "https://images.unsplash.com/photo-1630666351618-24e00de12b92?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
         "desc": "Bar street by the lake with history.", "tags": ["Hidden Bars", "Street Food"],
         "best_photo": "06:00 PM - 08:00 PM", "holiday_status": "Open (Normal Hours)"
     },
