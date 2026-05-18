@@ -2,7 +2,7 @@ import streamlit as st
 import random
 from datetime import datetime
 
-# --- 1. Page Config & Macaron Gradient with Premium Typography ---
+# --- 1. Page Config & Hardened Premium Typography CSS ---
 st.set_page_config(page_title="Bon Voyage Prototype", layout="centered")
 
 st.markdown("""
@@ -10,12 +10,12 @@ st.markdown("""
     /* 🛑 導入高級字體：Plus Jakarta Sans 🛑 */
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 
-    /* 🛑 應用字體到全域元件 🛑 */
-    html, body, [data-testid="stAppViewContainer"], [data-testid="stMainViewContainer"], .main, .stButton, .stPills, p {
+    /* 全域字體強制綁定 */
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stMainViewContainer"], .main, .stButton, .stPills, p, span, label {
         font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
 
-    /* 🛑 三色漸層背景優化 🛑 */
+    /* 高級感「粉橘 - 白 - 蜜桃粉」三色線性漸層背景 */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stMainViewContainer"], .main, [data-testid="stHeader"] {
         background: linear-gradient(135deg, #FFC0A8 0%, #FFFFFF 50%, #FFDEE9 100%) !important;
         background-attachment: fixed !important;
@@ -30,8 +30,8 @@ st.markdown("""
     
     [data-testid="stHeader"] { display: none !important; }
     
-    /* 標題與文字對比度強化 */
-    h1 { font-weight: 800 !important; font-size: 2.5rem !important; color: #1E293B !important; }
+    /* 標題樣式優化 */
+    h1 { font-weight: 800 !important; font-size: 2.3rem !important; color: #1E293B !important; margin-bottom: 5px !important; }
     h2, h3 { font-weight: 700 !important; color: #1E293B !important; }
     
     label[data-testid="stWidgetLabel"] p {
@@ -40,64 +40,84 @@ st.markdown("""
         font-weight: 700 !important;
     }
     
-    /* === 🛑 st.pills 藥丸按鈕樣式（字體對比強化） === */
+    /* === 🛑 萬能鎖死：st.pills 藥丸按鈕（暴力破除任何手機黑底/黑字覆蓋） === */
     div[data-testid="stPills"] button {
         background-color: #FFFFFF !important;
         border: 2px solid #FFD1C1 !important;
         border-radius: 24px !important;
         padding: 6px 14px !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03) !important;
     }
     
-    /* 藥丸文字強制為深藍灰 */
-    div[data-testid="stPills"] button p {
+    /* 深度鎖死未選中的文字顏色為有質感的深藍灰，絕不變黑 */
+    div[data-testid="stPills"] button *, div[data-testid="stPills"] button p, div[data-testid="stPills"] button span {
         color: #475569 !important;
         font-weight: 600 !important;
         font-size: 13px !important;
     }
     
+    /* 選中時的主題色外觀與純白字 */
     div[data-testid="stPills"] button[aria-selected="true"] {
         background-color: #FF4B4B !important;
         border: 2px solid #FF4B4B !important;
     }
-    div[data-testid="stPills"] button[aria-selected="true"] p {
+    div[data-testid="stPills"] button[aria-selected="true"] *, div[data-testid="stPills"] button[aria-selected="true"] p {
         color: #FFFFFF !important;
         font-weight: 700 !important;
     }
     
-    /* === 🛑 st.button 按鈕樣式（字體加粗） === */
-    div.stButton button {
-        background-color: #1E293B !important; /* 按鈕改為深色更顯眼 */
-        border: none !important;
-        border-radius: 24px !important;
-        padding: 10px 24px !important;
-        box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2) !important;
-    }
-    div.stButton button p {
-        color: #FFFFFF !important;
-        font-size: 16px !important;
-        font-weight: 700 !important;
-    }
-    
-    /* 底部導航列 */
+    /* === 🛑 導航列去點化修復 🛑 === */
     div[role="radiogroup"] {
         position: fixed !important; bottom: 0px !important; left: 50% !important;
         transform: translateX(-50%) !important; width: 100% !important; 
         max-width: 400px !important; 
-        background: rgba(255, 255, 255, 0.96) !important;
+        background: rgba(255, 255, 255, 0.97) !important;
         backdrop-filter: blur(20px) !important; 
         padding: 10px 0px 20px 0px !important; 
         border-top: 1px solid rgba(255, 192, 168, 0.3) !important;
         z-index: 9999 !important;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.04) !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+    }
+    
+    /* 徹底隱藏 Streamlit 原生單選鈕的圓圈、點點與任何多餘圖層 */
+    div[role="radiogroup"] label > div:first-child, 
+    div[role="radiogroup"] [data-testid="stRadioDot"],
+    div[role="radiogroup"] label div[role="presentation"] { 
+        display: none !important; 
+    }
+    
+    div[role="radiogroup"] label {
+        display: flex !important; flex-direction: column !important;
+        align-items: center !important; justify-content: center !important;
+        background: transparent !important; margin: 0 !important; cursor: pointer !important;
     }
     div[role="radiogroup"] label * { 
-        font-family: 'Plus Jakarta Sans', sans-serif !important;
-        font-size: 11px !important;
-        color: #64748B !important;
-        font-weight: 600 !important; 
+        font-size: 11px !important; margin-top: 2px !important; 
+        color: #64748B !important; text-align: center !important; font-weight: 600 !important; 
     }
-    div[role="radiogroup"] label[data-baseweb="radio"] * { color: #FF4B4B !important; }
+    div[role="radiogroup"] label[data-baseweb="radio"] * { color: #FF4B4B !important; font-weight: 800 !important; }
     
+    /* === 📸 Explore 頁面全新 Instagram 風格滿版卡片 === */
+    .explore-card {
+        background-color: #FFFFFF !important;
+        border-radius: 20px !important;
+        padding: 14px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 8px 24px rgba(223, 110, 71, 0.08) !important;
+    }
+    .explore-card-meta {
+        padding: 8px 4px 2px 4px !important;
+    }
+    .explore-card-title {
+        font-size: 16px !important; font-weight: 700 !important; color: #1E293B !important; margin: 0 0 4px 0 !important;
+    }
+    .explore-card-info {
+        margin: 2px 0 !important; font-size: 12px !important; font-weight: 600 !important;
+    }
+
     /* 行程卡片 */
     .trip-card { 
         background-color: #FFFFFF !important; 
@@ -108,10 +128,12 @@ st.markdown("""
         box-shadow: 0 8px 24px rgba(223, 110, 71, 0.08);
     }
     .trip-card h4 { margin: 0; color: #1E293B !important; font-weight: 700; }
-    .trip-card p.desc { margin: 6px 0; color: #475569 !important; font-size: 14px; }
+    .trip-card p.desc { margin: 6px 0; color: #475569 !important; font-size: 14px; line-height: 1.4 !important; }
     .trip-card p.info-line { margin: 3px 0 0 0; font-size: 12px; font-weight: 600; }
     
-    .stImage img { border-radius: 20px !important; }
+    .stImage img { border-radius: 16px !important; }
+    div.stButton button { background-color: #1E293B !important; border-radius: 24px !important; }
+    div.stButton button p { color: #FFFFFF !important; font-weight: 700 !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -215,16 +237,20 @@ else:
     elif nav == "📸\nExplore":
         st.title("Discovery")
         explore_spots = get_recommendations(current_city, vibes, limit=4)
-        col1, col2 = st.columns(2)
-        for i, spot in enumerate(explore_spots):
-            with (col1 if i % 2 == 0 else col2):
-                st.image(spot['img'], use_container_width=True)
-                st.markdown(f"**{spot['name']}**  \n⭐ 4.8")
-                status_color = "#DC2626" if "Closed" in spot["holiday_status"] else "#16A34A"
-                st.markdown(f"""
-                <p style="margin: 0; font-size: 11px; color: #B45309; font-weight: 600;">📸 {spot['best_photo']}</p>
-                <p style="margin: 0; font-size: 11px; color: {status_color}; font-weight: 600;">🔔 {spot['holiday_status']}</p>
-                """, unsafe_allow_html=True)
+        
+        # 📱 完美適配手機版：改為滿版單欄瀑布流卡片，極致好看
+        for spot in explore_spots:
+            status_color = "#DC2626" if "Closed" in spot["holiday_status"] else "#16A34A"
+            st.markdown(f"""
+            <div class="explore-card">
+                <img src="{spot['img']}" style="width:100%; border-radius:14px; object-fit:cover; aspect-ratio:16/10;" />
+                <div class="explore-card-meta">
+                    <p class="explore-card-title">{spot['name']} &nbsp;<span style="font-size:13px; font-weight:500; color:#64748B;">⭐ 4.8</span></p>
+                    <p class="explore-card-info" style="color: #B45309;">📸 {spot['best_photo']}</p>
+                    <p class="explore-card-info" style="color: {status_color};">🔔 {spot['holiday_status']}</p>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
     elif nav == "🧰\nTools":
         st.title("Tools")
