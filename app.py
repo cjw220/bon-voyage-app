@@ -1,9 +1,20 @@
 import streamlit as st
 import random
 from datetime import datetime
+from PIL import Image
 
-# --- 1. Page Config & Hardened Premium Typography CSS ---
-st.set_page_config(page_title="Bon Voyage Prototype", layout="centered")
+# --- 1. Page Config & Favicon Setup (終極強制讀取圖片法) ---
+try:
+    # 直接讀取圖片實體，破除雲端路徑快取 Bug
+    logo_img = Image.open("logo.jpg")
+except Exception:
+    logo_img = "✈️" # 萬一圖片還沒傳上來，先用飛機代替，絕不報錯
+
+st.set_page_config(
+    page_title="Bon Voyage Prototype", 
+    page_icon=logo_img, 
+    layout="centered"
+)
 
 st.markdown("""
     <style>
@@ -28,19 +39,23 @@ st.markdown("""
         background-color: transparent !important;
     }
     
+    /* 徹底隱藏頂部所有預設欄位 */
     [data-testid="stHeader"] { display: none !important; }
     
-    /* 標題樣式優化 */
-    h1 { font-weight: 800 !important; font-size: 2.3rem !important; color: #1E293B !important; margin-bottom: 5px !important; }
-    h2, h3 { font-weight: 700 !important; color: #1E293B !important; }
-    
-    label[data-testid="stWidgetLabel"] p, .stSelectbox p, .stSubheader p {
-        color: #1E293B !important;
-        font-size: 15px !important;
-        font-weight: 700 !important;
+    /* === 🚀 標題樣式優化 (強制靠左對齊 Logo) === */
+    h1 { 
+        font-weight: 800 !important; 
+        font-size: 2.6rem !important; 
+        color: #1E293B !important; 
+        text-align: left !important; /* 強制靠左 */
+        margin-top: 0px !important;
+        padding-top: 5px !important;
+        line-height: 1.2 !important;
     }
     
-    /* === 🛑 萬能鎖死：st.pills 藥丸按鈕 === */
+    h2, h3 { font-weight: 700 !important; color: #1E293B !important; }
+    
+    /* 藥丸按鈕樣式 */
     div[data-testid="stPills"] button {
         background-color: #FFFFFF !important;
         border: 2px solid #FFD1C1 !important;
@@ -48,93 +63,82 @@ st.markdown("""
         padding: 6px 14px !important;
         box-shadow: 0 4px 10px rgba(0,0,0,0.03) !important;
     }
-    
-    div[data-testid="stPills"] button *, div[data-testid="stPills"] button p, div[data-testid="stPills"] button span {
+    div[data-testid="stPills"] button * {
         color: #475569 !important;
         font-weight: 600 !important;
-        font-size: 13px !important;
     }
-    
     div[data-testid="stPills"] button[aria-selected="true"] {
         background-color: #FF4B4B !important;
         border: 2px solid #FF4B4B !important;
     }
-    div[data-testid="stPills"] button[aria-selected="true"] *, div[data-testid="stPills"] button[aria-selected="true"] p {
+    div[data-testid="stPills"] button[aria-selected="true"] * {
         color: #FFFFFF !important;
-        font-weight: 700 !important;
     }
     
-    /* === 🛑 導航列去點化修復 === */
+    /* === 🛑 導航列去點化修復 (強制圖文上下分行) === */
     div[role="radiogroup"] {
         position: fixed !important; bottom: 0px !important; left: 50% !important;
         transform: translateX(-50%) !important; width: 100% !important; 
         max-width: 400px !important; 
         background: rgba(255, 255, 255, 0.97) !important;
         backdrop-filter: blur(20px) !important; 
-        padding: 10px 0px 20px 0px !important; 
+        padding: 12px 10px 25px 10px !important; 
         border-top: 1px solid rgba(255, 192, 168, 0.3) !important;
         z-index: 9999 !important;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.04) !important;
         display: flex !important;
         flex-direction: row !important;
         justify-content: space-around !important;
     }
-    
     div[role="radiogroup"] label > div:first-child, 
-    div[role="radiogroup"] [data-testid="stRadioDot"],
-    div[role="radiogroup"] label div[role="presentation"] { 
-        display: none !important; 
-    }
+    div[role="radiogroup"] [data-testid="stRadioDot"] { display: none !important; }
     
     div[role="radiogroup"] label {
-        display: flex !important; flex-direction: column !important;
-        align-items: center !important; justify-content: center !important;
-        background: transparent !important; margin: 0 !important; cursor: pointer !important;
+        display: flex !important; 
+        flex-direction: column !important;
+        align-items: center !important; 
+        justify-content: center !important;
+        margin: 0 !important;
     }
-    div[role="radiogroup"] label * { 
-        font-size: 11px !important; margin-top: 2px !important; 
-        color: #64748B !important; text-align: center !important; font-weight: 600 !important; 
-    }
-    div[role="radiogroup"] label[data-baseweb="radio"] * { color: #FF4B4B !important; font-weight: 800 !important; }
     
-    /* === 📸 Explore 頁面滿版卡片 === */
-    .explore-card {
+    /* 這裡加入 white-space: pre-wrap 強制讓 \n 發生作用 */
+    div[role="radiogroup"] label p { 
+        font-size: 11px !important; 
+        color: #64748B !important; 
+        font-weight: 600 !important; 
+        text-align: center !important;
+        white-space: pre-wrap !important; 
+        line-height: 1.3 !important;
+        margin: 0 !important;
+    }
+    div[role="radiogroup"] label[data-baseweb="radio"] p { color: #FF4B4B !important; font-weight: 800 !important; }
+    
+    /* 探索卡片與行程卡片 */
+    .explore-card, .trip-card {
         background-color: #FFFFFF !important;
         border-radius: 20px !important;
-        padding: 20px !important;
+        padding: 18px !important;
         margin-bottom: 20px !important;
         box-shadow: 0 8px 24px rgba(223, 110, 71, 0.08) !important;
     }
-    .explore-card-meta { padding: 8px 4px 2px 4px !important; }
-    .explore-card-title { font-size: 16px !important; font-weight: 700 !important; color: #1E293B !important; margin: 0 0 4px 0 !important; }
-    .explore-card-info { margin: 2px 0 !important; font-size: 12px !important; font-weight: 600 !important; }
-
-    /* 行程卡片 */
-    .trip-card { 
-        background-color: #FFFFFF !important; 
-        padding: 18px; 
-        border-radius: 20px; 
-        border-left: 6px solid #FF4B4B; 
-        margin-bottom: 16px;
-        box-shadow: 0 8px 24px rgba(223, 110, 71, 0.08);
-    }
+    .trip-card { border-left: 6px solid #FF4B4B !important; }
     .trip-card h4 { margin: 0; color: #1E293B !important; font-weight: 700; }
     .trip-card p.desc { margin: 6px 0; color: #475569 !important; font-size: 14px; line-height: 1.4 !important; }
     .trip-card p.info-line { margin: 3px 0 0 0; font-size: 12px; font-weight: 600; }
-    
     .stImage img { border-radius: 16px !important; }
     
-    div.stButton button { background-color: #1E293B !important; border-radius: 24px !important; border: none !important; }
-    div.stButton button p { color: #FFFFFF !important; font-weight: 700 !important; }
-    
-    /* 🛠️ 工具頁面提示框美化 */
-    div[data-testid="stNotification"] {
-        background-color: rgba(255, 255, 255, 0.85) !important;
-        border: 1px solid #E2E8F0 !important;
-        border-radius: 14px !important;
+    /* 工具頁面淨化 */
+    div[data-testid="stFileUploader"] { 
+        background-color: #FFFFFF !important; 
+        border: 2px dashed #CBD5E1 !important; 
+        border-radius: 16px !important; 
+        padding: 10px !important; 
+        margin-bottom: 24px !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
     }
-    div[data-testid="stNotification"] p { color: #334155 !important; font-weight: 600 !important; }
+    div[data-testid="stFileUploader"] section { background-color: transparent !important; }
+    div[data-testid="stNotification"] { background-color: #F8FAFC !important; border: 1px solid #E2E8F0 !important; border-radius: 14px !important; }
+    div.stButton button { background-color: #1E293B !important; border-radius: 24px !important; border: none !important; }
+    div.stButton button p { color: #FFFFFF !important; font-weight: 700 !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -143,7 +147,6 @@ st.markdown("""
 # ==========================================
 
 DATABASE = [
-    # --- Taipei, Taiwan ---
     {
         "city": "Taipei, Taiwan", "name": "Taipei 101", "time": "04:30 PM", 
         "img": "https://images.unsplash.com/photo-1601534621622-8587a8a0da11?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
@@ -180,8 +183,6 @@ DATABASE = [
         "desc": "Relax in natural geothermal hot springs.", "tags": ["Wellness", "Nature & Hiking", "Art & Museums"],
         "best_photo": "09:00 AM - 11:00 AM", "holiday_status": "Closed Today (Local Dynamic Holiday Notice)"
     },
-
-    # --- Tokyo, Japan ---
     {
         "city": "Tokyo, Japan", "name": "TeamLab Planets", "time": "09:30 AM", 
         "img": "https://images.unsplash.com/photo-1558637845-c8b7ead71a3e?w=400", 
@@ -218,8 +219,6 @@ DATABASE = [
         "desc": "Tiny hidden bars with unique vibes.", "tags": ["Hidden Bars", "Live Music", "Local Cafes"],
         "best_photo": "09:00 PM - 11:00 PM", "holiday_status": "Open (Normal Hours)"
     },
-
-    # --- Beijing, China ---
     {
         "city": "Beijing, China", "name": "Forbidden City", "time": "09:00 AM", 
         "img": "https://images.unsplash.com/photo-1598420006067-77f1c052daea?q=80&w=988&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
@@ -250,8 +249,6 @@ DATABASE = [
         "desc": "Bar street by the lake with history.", "tags": ["Hidden Bars", "Street Food", "Live Music", "Anime & Manga"],
         "best_photo": "06:00 PM - 08:00 PM", "holiday_status": "Open (Normal Hours)"
     },
-
-    # --- New Delhi, India ---
     {
         "city": "New Delhi, India", "name": "Red Fort", "time": "09:30 AM", 
         "img": "https://plus.unsplash.com/premium_photo-1697730373510-51b7fcf2ff52?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
@@ -290,7 +287,6 @@ DATABASE = [
     }
 ]
 
-# Helper to sort time strings
 def time_to_int(time_str):
     return datetime.strptime(time_str, '%I:%M %p')
 
@@ -301,16 +297,13 @@ def get_recommendations(target_city, user_vibes, limit=3, exclude=[]):
         match_score = len(set(spot["tags"]).intersection(set(user_vibes))) if user_vibes != ["Standard Tourist"] else 0
         random_boost = random.uniform(0, 1.0)
         scored_spots.append({"spot": spot, "score": match_score + random_boost})
-    
     scored_spots.sort(key=lambda x: x["score"], reverse=True)
     results = [item["spot"] for item in scored_spots[:limit]]
-    
     if len(results) < limit:
         remaining_spots = [spot for spot in city_spots if spot not in results]
         random.shuffle(remaining_spots)
         while len(results) < limit and remaining_spots:
             results.append(remaining_spots.pop())
-            
     results.sort(key=lambda x: time_to_int(x['time']))
     return results
 
@@ -322,8 +315,25 @@ if 'onboarded' not in st.session_state:
     st.session_state.onboarded = False
 
 if not st.session_state.onboarded:
-    st.title("Bon Voyage")
-    st.session_state.destination = st.selectbox("Where to next?", ["Taipei, Taiwan", "Tokyo, Japan", "Beijing, China", "New Delhi, India"])
+    
+    # === 🚀 首頁 Logo 與 標題左右完美並排 ===
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    col1, col2 = st.columns([1.2, 4]) # 精準調整左右寬度比例
+    with col1:
+        try:
+            st.image("logo.jpg", use_container_width=True)
+        except Exception:
+            pass 
+    with col2:
+        st.title("Bon Voyage")
+        
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    st.session_state.destination = st.selectbox(
+        "Where to next?", 
+        ["Taipei, Taiwan", "Tokyo, Japan", "Beijing, China", "New Delhi, India"]
+    )
     
     interests_options = ["Street Food", "Hidden Bars", "Art & Museums", "Nature & Hiking", "Historical Sites", "Shopping", "Instagrammable", "Anime & Manga", "Local Cafes", "Thrift Stores", "Live Music", "Wellness", "City Skylines"]
     interests = st.pills("Pick your vibes:", options=interests_options, selection_mode="multi")
@@ -334,6 +344,7 @@ if not st.session_state.onboarded:
         st.rerun()
 
 else:
+    # 底部導航欄 - 標籤字串加上 \n，CSS 已經強制換行
     nav = st.radio("", ["📅\nTrip", "📸\nExplore", "🧰\nTools", "👤\nProfile"], horizontal=True, label_visibility="collapsed")
     vibes = st.session_state.user_vibes
     current_city = st.session_state.destination
@@ -372,14 +383,11 @@ else:
 
     elif nav == "🧰\nTools":
         st.title("Travel Tools")
-        
         st.subheader("AI Menu Scanner")
         uploaded_file = st.file_uploader("Upload menu photo", label_visibility="collapsed")
         if uploaded_file is not None:
             st.success("Translating... Traditional dish names mapped to local English ingredients!")
-        
         st.markdown("<br>", unsafe_allow_html=True)
-        
         st.subheader("Smart Transport Tip")
         city_short = current_city.split(',')[0]
         st.markdown(f'<p style="font-size: 14px; color: #475569; margin: 4px 0 12px 0;">Based on your current destination ({city_short}), the AI recommends:</p>', unsafe_allow_html=True)
@@ -387,6 +395,13 @@ else:
 
     elif nav == "👤\nProfile":
         st.title("Profile")
+        # 這裡的 Profile Logo 維持置中
+        _, p_mid, _ = st.columns([1.5, 1, 1.5])
+        with p_mid:
+            try:
+                st.image("logo.jpg", use_container_width=True)
+            except Exception:
+                pass
         st.write(f"Destination: **{current_city}**")
         st.write(f"Vibes: **{', '.join(vibes)}**")
         if st.button("Reset Demo", use_container_width=True):
