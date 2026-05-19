@@ -203,13 +203,13 @@ DATABASE = [
     },
     {
         "city": "Tokyo, Japan", "name": "Shibuya Sky", "time": "05:00 PM", 
-        "img": "https://images.unsplash.com/photo-106744038136-46273834b3fb?w=400", 
+        "img": "https://images.unsplash.com/photo-1729707397413-d4b10d6a0376?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
         "desc": "Stunning 360-degree view of Tokyo rooftop cityscape.", "tags": ["City Skylines", "Instagrammable", "Shopping", "Live Music"],
         "best_photo": "05:00 PM - 06:00 PM (Sunset Peak)", "holiday_status": "Open (Normal Hours)"
     },
     {
         "city": "Tokyo, Japan", "name": "Shimokitazawa", "time": "03:00 PM", 
-        "img": "https://images.unsplash.com/photo-1524413840807-0b3cb6fa808d?w=400", 
+        "img": "https://images.unsplash.com/photo-1646973975241-b6bfd7db57ad?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
         "desc": "Thrift shopping and indie music scene.", "tags": ["Thrift Stores", "Local Cafes", "Live Music", "Shopping"],
         "best_photo": "03:00 PM - 05:00 PM", "holiday_status": "Open (Normal Hours)"
     },
