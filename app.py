@@ -123,27 +123,18 @@ st.markdown("""
     .trip-card p.info-line { margin: 3px 0 0 0; font-size: 12px; font-weight: 600; }
     
     .stImage img { border-radius: 16px !important; }
+    
     div.stButton button { background-color: #1E293B !important; border-radius: 24px !important; border: none !important; }
     div.stButton button p { color: #FFFFFF !important; font-weight: 700 !important; }
     
-    /* 🛠️ 工具頁面元件直接美化，不再依賴外層空殼 */
-    div[data-testid="stFileUploader"] { 
-        background-color: #FFFFFF !important; 
-        border: 2px dashed #CBD5E1 !important; 
-        border-radius: 16px !important; 
-        padding: 10px !important; 
-        margin-bottom: 24px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
-    }
-    div[data-testid="stFileUploader"] section { background-color: transparent !important; }
-    
+    /* 🛠️ 工具頁面提示框美化 */
     div[data-testid="stNotification"] {
-        background-color: #F8FAFC !important;
+        background-color: rgba(255, 255, 255, 0.85) !important;
         border: 1px solid #E2E8F0 !important;
         border-radius: 14px !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
     }
-    div[data-testid="stNotification"] p { color: #334155 !important; }
+    div[data-testid="stNotification"] p { color: #334155 !important; font-weight: 600 !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -379,7 +370,6 @@ else:
             </div>
             """, unsafe_allow_html=True)
 
-    # 🧰 Tools 終極淨化：完全拔除多餘 HTML 卡片包裝
     elif nav == "🧰\nTools":
         st.title("Travel Tools")
         
@@ -388,7 +378,7 @@ else:
         if uploaded_file is not None:
             st.success("Translating... Traditional dish names mapped to local English ingredients!")
         
-        st.markdown("<br>", unsafe_allow_html=True) # 簡單的間距
+        st.markdown("<br>", unsafe_allow_html=True)
         
         st.subheader("Smart Transport Tip")
         city_short = current_city.split(',')[0]
