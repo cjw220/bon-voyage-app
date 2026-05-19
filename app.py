@@ -34,13 +34,13 @@ st.markdown("""
     h1 { font-weight: 800 !important; font-size: 2.3rem !important; color: #1E293B !important; margin-bottom: 5px !important; }
     h2, h3 { font-weight: 700 !important; color: #1E293B !important; }
     
-    label[data-testid="stWidgetLabel"] p, .stSelectbox p {
+    label[data-testid="stWidgetLabel"] p, .stSelectbox p, .stSubheader p {
         color: #1E293B !important;
         font-size: 15px !important;
         font-weight: 700 !important;
     }
     
-    /* === 🛑 萬能鎖死：st.pills 藥丸按鈕（暴力破除任何手機黑底/黑字覆蓋） === */
+    /* === 🛑 萬能鎖死：st.pills 藥丸按鈕 === */
     div[data-testid="stPills"] button {
         background-color: #FFFFFF !important;
         border: 2px solid #FFD1C1 !important;
@@ -49,14 +49,12 @@ st.markdown("""
         box-shadow: 0 4px 10px rgba(0,0,0,0.03) !important;
     }
     
-    /* 深度鎖死未選中的文字顏色為有質感的深藍灰，絕不變黑 */
     div[data-testid="stPills"] button *, div[data-testid="stPills"] button p, div[data-testid="stPills"] button span {
         color: #475569 !important;
         font-weight: 600 !important;
         font-size: 13px !important;
     }
     
-    /* 選中時的主題色外觀與純白字 */
     div[data-testid="stPills"] button[aria-selected="true"] {
         background-color: #FF4B4B !important;
         border: 2px solid #FF4B4B !important;
@@ -66,7 +64,7 @@ st.markdown("""
         font-weight: 700 !important;
     }
     
-    /* === 🛑 導航列去點化修復 🛑 === */
+    /* === 🛑 導航列去點化修復 === */
     div[role="radiogroup"] {
         position: fixed !important; bottom: 0px !important; left: 50% !important;
         transform: translateX(-50%) !important; width: 100% !important; 
@@ -82,7 +80,6 @@ st.markdown("""
         justify-content: space-around !important;
     }
     
-    /* 徹底隱藏 Streamlit 原生單選鈕的圓圈、點點與任何多餘圖層 */
     div[role="radiogroup"] label > div:first-child, 
     div[role="radiogroup"] [data-testid="stRadioDot"],
     div[role="radiogroup"] label div[role="presentation"] { 
@@ -104,19 +101,13 @@ st.markdown("""
     .explore-card {
         background-color: #FFFFFF !important;
         border-radius: 20px !important;
-        padding: 14px !important;
+        padding: 20px !important;
         margin-bottom: 20px !important;
         box-shadow: 0 8px 24px rgba(223, 110, 71, 0.08) !important;
     }
-    .explore-card-meta {
-        padding: 8px 4px 2px 4px !important;
-    }
-    .explore-card-title {
-        font-size: 16px !important; font-weight: 700 !important; color: #1E293B !important; margin: 0 0 4px 0 !important;
-    }
-    .explore-card-info {
-        margin: 2px 0 !important; font-size: 12px !important; font-weight: 600 !important;
-    }
+    .explore-card-meta { padding: 8px 4px 2px 4px !important; }
+    .explore-card-title { font-size: 16px !important; font-weight: 700 !important; color: #1E293B !important; margin: 0 0 4px 0 !important; }
+    .explore-card-info { margin: 2px 0 !important; font-size: 12px !important; font-weight: 600 !important; }
 
     /* 行程卡片 */
     .trip-card { 
@@ -132,13 +123,32 @@ st.markdown("""
     .trip-card p.info-line { margin: 3px 0 0 0; font-size: 12px; font-weight: 600; }
     
     .stImage img { border-radius: 16px !important; }
-    div.stButton button { background-color: #1E293B !important; border-radius: 24px !important; }
+    div.stButton button { background-color: #1E293B !important; border-radius: 24px !important; border: none !important; }
     div.stButton button p { color: #FFFFFF !important; font-weight: 700 !important; }
+    
+    /* 🛠️ 工具頁面元件直接美化，不再依賴外層空殼 */
+    div[data-testid="stFileUploader"] { 
+        background-color: #FFFFFF !important; 
+        border: 2px dashed #CBD5E1 !important; 
+        border-radius: 16px !important; 
+        padding: 10px !important; 
+        margin-bottom: 24px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
+    }
+    div[data-testid="stFileUploader"] section { background-color: transparent !important; }
+    
+    div[data-testid="stNotification"] {
+        background-color: #F8FAFC !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 14px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
+    }
+    div[data-testid="stNotification"] p { color: #334155 !important; }
     </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 🌍 Fully Hardened Pure Text Database (Your Original URLs Strictly Preserved)
+# 🌍 Fully Hardened Pure Text Database
 # ==========================================
 
 DATABASE = [
@@ -157,7 +167,7 @@ DATABASE = [
     },
     {
         "city": "Taipei, Taiwan", "name": "Raohe Night Market", "time": "07:00 PM", 
-        "img": "https://images.unsplash.com/photo-1706723406868-4c60e9df8115?q=80&w=983&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+        "img": "https://images.unsplash.com/photo-1706723406868-4c60e9df8115?q=983&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
         "desc": "The best black pepper buns in town.", "tags": ["Street Food", "Historical Sites", "Local Cafes"],
         "best_photo": "07:30 PM - 08:30 PM", "holiday_status": "Open (Normal Hours)"
     },
@@ -233,7 +243,7 @@ DATABASE = [
     },
     {
         "city": "Beijing, China", "name": "Great Wall (Mutianyu)", "time": "07:30 AM", 
-        "img": "https://images.unsplash.com/photo-1712298111306-ae2785ebf6ce?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+        "img": "https://images.unsplash.com/photo-1712298111306-ae2785ebf6ce?q=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
         "desc": "Slide down from the wonder of the world.", "tags": ["Nature & Hiking", "Instagrammable", "Wellness", "Live Music"],
         "best_photo": "07:30 AM - 09:30 AM (Clear View)", "holiday_status": "Open (Normal Hours)"
     },
@@ -296,26 +306,20 @@ def time_to_int(time_str):
 def get_recommendations(target_city, user_vibes, limit=3, exclude=[]):
     city_spots = [spot for spot in DATABASE if spot["city"] == target_city and spot["name"] not in exclude]
     scored_spots = []
-    
     for spot in city_spots:
-        # 計算標籤匹配度
         match_score = len(set(spot["tags"]).intersection(set(user_vibes))) if user_vibes != ["Standard Tourist"] else 0
-        # 亂數微調避開死板排序
         random_boost = random.uniform(0, 1.0)
         scored_spots.append({"spot": spot, "score": match_score + random_boost})
     
-    # 依照分數從高到低排序
     scored_spots.sort(key=lambda x: x["score"], reverse=True)
     results = [item["spot"] for item in scored_spots[:limit]]
     
-    # 🛑 核心安全機制（Fall-back Mechanism）：如果推薦出來的景點不夠，自動從該城市撈其他景點補滿 🛑
     if len(results) < limit:
         remaining_spots = [spot for spot in city_spots if spot not in results]
         random.shuffle(remaining_spots)
         while len(results) < limit and remaining_spots:
             results.append(remaining_spots.pop())
             
-    # 最後依照景點預設的時間排序，確保行程流暢
     results.sort(key=lambda x: time_to_int(x['time']))
     return results
 
@@ -362,8 +366,6 @@ else:
     elif nav == "📸\nExplore":
         st.title("Discovery")
         explore_spots = get_recommendations(current_city, vibes, limit=4)
-        
-        # 📱 完美適配手機版：滿版單欄瀑布流卡片
         for spot in explore_spots:
             status_color = "#DC2626" if "Closed" in spot["holiday_status"] else "#16A34A"
             st.markdown(f"""
@@ -377,11 +379,26 @@ else:
             </div>
             """, unsafe_allow_html=True)
 
+    # 🧰 Tools 終極淨化：完全拔除多餘 HTML 卡片包裝
     elif nav == "🧰\nTools":
-        st.title("Tools")
-        st.info(f"💡 Budget Tip: Local transport in {current_city} is best managed via Apple Pay.")
+        st.title("Travel Tools")
+        
+        st.subheader("AI Menu Scanner")
+        uploaded_file = st.file_uploader("Upload menu photo", label_visibility="collapsed")
+        if uploaded_file is not None:
+            st.success("Translating... Traditional dish names mapped to local English ingredients!")
+        
+        st.markdown("<br>", unsafe_allow_html=True) # 簡單的間距
+        
+        st.subheader("Smart Transport Tip")
+        city_short = current_city.split(',')[0]
+        st.markdown(f'<p style="font-size: 14px; color: #475569; margin: 4px 0 12px 0;">Based on your current destination ({city_short}), the AI recommends:</p>', unsafe_allow_html=True)
+        st.info("Do not buy separate single tickets. Link your Apple Pay or Google Wallet directly to local digital transit bar-codes for a 20% flat discount on inter-city transfers.")
 
     elif nav == "👤\nProfile":
+        st.title("Profile")
+        st.write(f"Destination: **{current_city}**")
+        st.write(f"Vibes: **{', '.join(vibes)}**")
         if st.button("Reset Demo", use_container_width=True):
             st.session_state.onboarded = False
             st.rerun()
